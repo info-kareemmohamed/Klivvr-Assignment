@@ -10,7 +10,7 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/Theme.KlivvrTask"
         tools:targetApi="31">
         <activity
