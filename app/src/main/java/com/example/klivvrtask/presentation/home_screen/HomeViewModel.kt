@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.klivvrtask.common.Resource
 import com.example.klivvrtask.domain.model.City
-import com.example.klivvrtask.domain.use_case.GetCityUseCase
+import com.example.klivvrtask.domain.use_case.GetCitiesUseCase
 import com.example.klivvrtask.domain.use_case.ShowCityLocationUseCase
 import com.example.klivvrtask.domain.use_case.SortCitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getCityUseCase: GetCityUseCase,
+
+    private val getCitiesUseCase: GetCitiesUseCase,
     private val sortCitiesUseCase: SortCitiesUseCase,
     private val showCityLocationUseCase: ShowCityLocationUseCase,
     application: Application
@@ -45,7 +46,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getCities() {
         viewModelScope.launch {
-            getCityUseCase(getApplication()).collect { result ->
+            getCitiesUseCase(getApplication()).collect { result ->
                 when (result) {
                     is Resource.Loading -> _progressBar.value = true
                     is Resource.Success -> {
