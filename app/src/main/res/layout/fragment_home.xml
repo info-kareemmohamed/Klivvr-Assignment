@@ -17,6 +17,24 @@
         android:padding="3dp"
         tools:context=".presentation.home_screen.HomeFragment">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/home_cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/home_searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="@string/search_here" />
+        </androidx.cardview.widget.CardView>
 
         <ProgressBar
             android:layout_width="0dp"
@@ -65,9 +83,7 @@
             app:customVisibility="@{viewModel.progressBar==true?false:true}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            />
+            app:layout_constraintTop_toBottomOf="@+id/home_cardView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

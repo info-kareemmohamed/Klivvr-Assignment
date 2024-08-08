@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klivvrtask.R
 import com.example.klivvrtask.domain.model.City
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.appcompat.widget.SearchView
 import kotlinx.coroutines.launch
 import com.example.klivvrtask.databinding.FragmentHomeBinding
 
@@ -20,7 +21,6 @@ class HomeFragment : Fragment(), LocationClickListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private val adapter: CitiesRecyclerViewAdapter = CitiesRecyclerViewAdapter(emptyList(), this)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -42,6 +42,19 @@ class HomeFragment : Fragment(), LocationClickListener {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         getCityList()
+        binding.homeSearchView.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                     viewModel.searchByPrefix(query.orEmpty())
+
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            }
+        )
     }
 
     private fun setupRecyclerView() {
@@ -52,11 +65,12 @@ class HomeFragment : Fragment(), LocationClickListener {
 
     private fun getCityList() {
         lifecycleScope.launch {
-            viewModel.cityList.collect { CityList ->
-                adapter.updateData(CityList.toList())
+            viewModel.cityList.collect { cities ->
+                adapter.updateData(cities)
             }
         }
     }
+
 
 
     override fun locationClicked(city: City) {
