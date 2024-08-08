@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.klivvrtask.common.Resource
 import com.example.klivvrtask.data.dto.CityDto
 import com.example.klivvrtask.data.dto.toCity
-import com.example.klivvrtask.data.parseJsonFromFile
+import com.example.klivvrtask.common.parseJsonFromFile
 import com.example.klivvrtask.domain.model.City
 import com.example.klivvrtask.domain.repository.CityRepository
 import kotlinx.coroutines.flow.Flow

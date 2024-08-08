@@ -1,7 +1,9 @@
 package com.example.klivvrtask.di
 
+import com.example.klivvrtask.common.CityAutocomplete
 import com.example.klivvrtask.data.repository.CityRepositoryImpl
 import com.example.klivvrtask.domain.repository.CityRepository
+import com.example.klivvrtask.domain.use_case.CitySearchUseCase
 import com.example.klivvrtask.domain.use_case.ShowCityLocationUseCase
 import com.example.klivvrtask.domain.use_case.SortCitiesUseCase
 import dagger.Module
@@ -32,5 +34,15 @@ class AppModule {
         return SortCitiesUseCase()
     }
 
+    @Provides
+    @Singleton
+    fun provideCityAutocomplete(): CityAutocomplete {
+        return CityAutocomplete()
+    }
+
+    @Provides
+    fun provideCitySearchUseCase(citySearch: CityAutocomplete): CitySearchUseCase {
+        return CitySearchUseCase(citySearch)
+    }
 
 }

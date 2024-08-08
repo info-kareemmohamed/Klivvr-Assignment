@@ -1,4 +1,4 @@
-package com.example.klivvrtask.data
+package com.example.klivvrtask.common
 
 import android.content.Context
 import com.example.klivvrtask.data.dto.CityDto
