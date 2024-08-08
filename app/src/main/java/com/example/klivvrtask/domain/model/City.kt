@@ -6,4 +6,8 @@ data class City(
     val country: String,
     val latitude: Double,
     val longitude: Double
+<<<<<<< Updated upstream
 )
+=======
+)
+>>>>>>> Stashed changes
