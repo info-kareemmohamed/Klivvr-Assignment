@@ -5,7 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.klivvrtask.common.Resource
 import com.example.klivvrtask.domain.model.City
+<<<<<<< Updated upstream
 import com.example.klivvrtask.domain.use_case.GetCityUseCase
+=======
+import com.example.klivvrtask.domain.use_case.GetCitiesUseCase
+>>>>>>> Stashed changes
 import com.example.klivvrtask.domain.use_case.ShowCityLocationUseCase
 import com.example.klivvrtask.domain.use_case.SortCitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+<<<<<<< Updated upstream
     private val getCityUseCase: GetCityUseCase,
+=======
+    private val getCitiesUseCase: GetCitiesUseCase,
+>>>>>>> Stashed changes
     private val sortCitiesUseCase: SortCitiesUseCase,
     private val showCityLocationUseCase: ShowCityLocationUseCase,
     application: Application
@@ -45,7 +53,11 @@ class HomeViewModel @Inject constructor(
 
     private fun getCities() {
         viewModelScope.launch {
+<<<<<<< Updated upstream
             getCityUseCase(getApplication()).collect { result ->
+=======
+            getCitiesUseCase(getApplication()).collect { result ->
+>>>>>>> Stashed changes
                 when (result) {
                     is Resource.Loading -> _progressBar.value = true
                     is Resource.Success -> {

@@ -21,7 +21,11 @@ class CitiesRecyclerViewAdapter(
         fun onBind(city:City) {
             itemView.findViewById<TextView>(R.id.card_title).text = "${city.name} -${city.country}"
             val subtitle = itemView.findViewById<TextView>(R.id.card_subtitle)
+<<<<<<< Updated upstream
             subtitle.text = "Lat: ${city.lat} , Lon: ${city.lon}"
+=======
+            subtitle.text = "Lat: ${city.latitude} , Lon: ${city.longitude}"
+>>>>>>> Stashed changes
             itemView.findViewById<ImageView>(R.id.card_image).setOnClickListener {
                 listener.locationClicked(city)
             }
