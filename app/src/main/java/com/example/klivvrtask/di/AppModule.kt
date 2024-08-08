@@ -1,6 +1,5 @@
 package com.example.klivvrtask.di
 
-import com.example.klivvrtask.common.CityAutocomplete
 import com.example.klivvrtask.data.repository.CityRepositoryImpl
 import com.example.klivvrtask.domain.model.City
 import com.example.klivvrtask.domain.repository.CityRepository
