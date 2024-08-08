@@ -5,16 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klivvrtask.R
+import com.example.klivvrtask.domain.model.City
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import com.example.klivvrtask.databinding.FragmentHomeBinding
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
-
+class HomeFragment : Fragment(), LocationClickListener {
+    private lateinit var binding: FragmentHomeBinding
+    private val viewModel: HomeViewModel by viewModels()
+    private val adapter: CitiesRecyclerViewAdapter = CitiesRecyclerViewAdapter(emptyList(), this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -22,8 +30,39 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_home, container, false
+        )
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        getCityList()
+    }
+
+    private fun setupRecyclerView() {
+        binding.homeRecycler.adapter = adapter
+        binding.homeRecycler.setHasFixedSize(true)
+        binding.homeRecycler.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun getCityList() {
+        lifecycleScope.launch {
+            viewModel.cityList.collect { CityList ->
+                adapter.updateData(CityList.toList())
+            }
+        }
+    }
+
+
+    override fun locationClicked(city: City) {
+      viewModel.showCityLocation(city)
     }
 
 
 }
+
