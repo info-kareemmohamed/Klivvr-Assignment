@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.TreeMap
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,7 +27,6 @@ class HomeViewModel @Inject constructor(
     private val citySearchUseCase: CitySearchUseCase,
     application: Application
 ) : AndroidViewModel(application) {
-
 
     private val _cityList = MutableStateFlow<List<City>>(emptyList())
     val cityList: StateFlow<List<City>> = _cityList
@@ -44,6 +44,7 @@ class HomeViewModel @Inject constructor(
     init {
         getCities()
     }
+
 
     fun searchByPrefix(prefix: String) {
         if (prefix.isNotEmpty() && prefix.isNotBlank()) {
@@ -70,7 +71,7 @@ class HomeViewModel @Inject constructor(
                     is Resource.Loading -> _progressBar.value = true
                     is Resource.Success -> {
                         _progressBar.value = false
-                        citySearchUseCase.addCities(result.data ?: emptyList())
+                         citySearchUseCase.addCities(result.data ?: emptyList())
                         _cityList.value = sortCitiesUseCase(result.data ?: emptyList())
 
                     }
