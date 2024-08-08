@@ -1,6 +1,5 @@
 package com.example.klivvrtask.domain.use_case
 
-import com.example.klivvrtask.common.CityAutocomplete
 import com.example.klivvrtask.domain.model.City
 import java.util.TreeMap
 import javax.inject.Inject
