@@ -10,12 +10,9 @@ import com.example.klivvrtask.domain.use_case.GetCitiesUseCase
 import com.example.klivvrtask.domain.use_case.ShowCityLocationUseCase
 import com.example.klivvrtask.domain.use_case.SortCitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.TreeMap
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,7 +36,7 @@ class HomeViewModel @Inject constructor(
 
     private val _progressBar = MutableStateFlow<Boolean>(false)
     val progressBar: StateFlow<Boolean> = _progressBar
-
+    private lateinit var sortedCities: List<City>
 
     init {
         getCities()
@@ -47,22 +44,15 @@ class HomeViewModel @Inject constructor(
 
 
     fun searchByPrefix(prefix: String) {
-        if (prefix.isNotEmpty() && prefix.isNotBlank()) {
-            viewModelScope.launch {
-                _progressBar.value = true
-                val result = withContext(Dispatchers.IO) {
-                    citySearchUseCase(prefix)
-                }
-                _cityList.value = result
-                _progressBar.value = false
-            }
-        }
+        _progressBar.value = true
+        if (prefix.isBlank()) _cityList.value = sortedCities
+        else _cityList.value = citySearchUseCase(prefix)
+        _progressBar.value = false
     }
 
     fun showCityLocation(city: City) {
         showCityLocationUseCase(city, getApplication())
     }
-
 
     private fun getCities() {
         viewModelScope.launch {
@@ -70,10 +60,10 @@ class HomeViewModel @Inject constructor(
                 when (result) {
                     is Resource.Loading -> _progressBar.value = true
                     is Resource.Success -> {
+                        citySearchUseCase.addCities(result.data ?: emptyList())
+                        sortedCities = sortCitiesUseCase(result.data ?: emptyList())
+                        _cityList.value = sortedCities
                         _progressBar.value = false
-                         citySearchUseCase.addCities(result.data ?: emptyList())
-                        _cityList.value = sortCitiesUseCase(result.data ?: emptyList())
-
                     }
 
                     is Resource.Error -> {
