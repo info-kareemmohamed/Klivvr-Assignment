@@ -45,13 +45,12 @@ class HomeFragment : Fragment(), LocationClickListener {
         binding.homeSearchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                     viewModel.searchByPrefix(query.orEmpty())
-
-                    return true
+                    return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    return false
+                    viewModel.searchByPrefix(newText.orEmpty())
+                    return true
                 }
             }
         )
